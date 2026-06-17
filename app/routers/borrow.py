@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from sqlalchemy.orm import Session
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from app.database.db import SessionLocal
 from app.models.borrow import Borrow
@@ -120,3 +120,19 @@ def get_borrow_history():
     db.close()
 
     return borrows
+
+@router.get("/overdue", response_model=list[BorrowResponse])
+def get_overdue_books():
+
+    db: Session = SessionLocal()
+
+    overdue_limit = datetime.utcnow() - timedelta(days=14)
+
+    overdue_books = db.query(Borrow).filter(
+        Borrow.return_date == None,
+        Borrow.borrow_date < overdue_limit
+    ).all()
+
+    db.close()
+
+    return overdue_books
