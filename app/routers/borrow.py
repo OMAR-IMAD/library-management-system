@@ -96,3 +96,27 @@ def return_book(data: ReturnBookRequest):
     return {
         "message": "Book returned successfully"
     }
+
+@router.get("/active", response_model=list[BorrowResponse])
+def get_active_borrows():
+
+    db: Session = SessionLocal()
+
+    active_borrows = db.query(Borrow).filter(
+        Borrow.return_date == None
+    ).all()
+
+    db.close()
+
+    return active_borrows
+
+@router.get("/history", response_model=list[BorrowResponse])
+def get_borrow_history():
+
+    db: Session = SessionLocal()
+
+    borrows = db.query(Borrow).all()
+
+    db.close()
+
+    return borrows
