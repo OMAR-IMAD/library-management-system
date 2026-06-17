@@ -30,10 +30,18 @@ def create_book(book: BookCreate):
 
 
 @router.get("/", response_model=list[BookResponse])
-def get_books():
+def get_books(
+    page: int = 1,
+    limit: int = 10
+):
     db: Session = SessionLocal()
 
-    books = db.query(Book).all()
+    skip = (page - 1) * limit
+
+    books = db.query(Book)\
+        .offset(skip)\
+        .limit(limit)\
+        .all()
 
     db.close()
 
