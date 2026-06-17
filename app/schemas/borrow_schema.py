@@ -16,3 +16,8 @@ class BorrowResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class ReturnBookRequest(BaseModel):
+    user_id: int
+    book_isbn: str
