@@ -40,6 +40,21 @@ def get_books():
     return books
 
 
+@router.get("/search/")
+def search_books(query: str):
+
+    db: Session = SessionLocal()
+
+    books = db.query(Book).filter(
+        (Book.title.contains(query)) |
+        (Book.author.contains(query))
+    ).all()
+
+    db.close()
+
+    return books
+
+
 @router.get("/{isbn}", response_model=BookResponse)
 def get_book(isbn: str):
     db: Session = SessionLocal()
@@ -49,6 +64,7 @@ def get_book(isbn: str):
     db.close()
 
     return book
+
 
 @router.delete("/{isbn}")
 def delete_book(isbn: str):
@@ -66,6 +82,7 @@ def delete_book(isbn: str):
     db.close()
 
     return {"message": "Book deleted successfully"}
+
 
 @router.put("/{isbn}", response_model=BookResponse)
 def update_book(isbn: str, updated_book: BookCreate):
