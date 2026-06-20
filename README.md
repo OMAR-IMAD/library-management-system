@@ -1,32 +1,34 @@
-Türkçe Açıklama 
+Library Management System
+Türkçe Açıklama
 Kütüphane Yönetim Sistemi
 Açıklama
 
-Kütüphane Yönetim Sistemi, FastAPI ile oluşturulmuş bir arka uç REST API projesidir.
+Kütüphane Yönetim Sistemi, FastAPI ile geliştirilmiş bir REST API projesidir.
 
-Sistem, kullanıcıların kayıt olmalarına, giriş yapmalarına, kitapları yönetmelerine, kitap ödünç alıp iade etmelerine, rezervasyon oluşturmalarına ve kütüphane istatistiklerini görüntülemelerine olanak tanır.
+Sistem kullanıcı kayıtlarını, giriş işlemlerini, kitap yönetimini, ödünç alma ve iade işlemlerini, rezervasyonları ve istatistikleri yönetmektedir.
 
 Özellikler
-Kullanıcı kaydı
-JWT kimlik doğrulaması ile kullanıcı girişi
-Güvenli parola karma algoritması
-Kitap yönetimi CRUD
-Kitap arama
-Sayfalama
-Kitap ödünç alma
-Kitap iade etme
-Ödünç alma geçmişi
-Gecikmiş kitaplar
-Rezervasyon sistemi
-Kütüphane istatistikleri
-Docker desteği
-Swagger API dokümantasyonu
+Kullanıcı Kaydı
+JWT Kimlik Doğrulama
+Güvenli Parola Şifreleme
+Kitap CRUD İşlemleri
+Kitap Arama
+Sayfalama (Pagination)
+Kitap Ödünç Alma
+Kitap İade Etme
+Ödünç Geçmişi
+Gecikmiş Kitaplar
+Rezervasyon Sistemi
+Kütüphane İstatistikleri
+CSV Veri Aktarma
+Docker Desteği
+Swagger API Dokümantasyonu
 Kullanılan Teknolojiler
 Python
 FastAPI
 SQLAlchemy
 SQLite
-JWT Kimlik Doğrulaması
+JWT Authentication
 Docker
 GitHub
 Proje Yapısı
@@ -43,69 +45,81 @@ POST /users/register
 POST /users/login
 GET /users/
 Kitaplar
-POST /kitaplar/
-GET /kitaplar/
-GET /kitaplar/arama/
-GET /kitaplar/{isbn}
-PUT /kitaplar/{isbn}
-DELETE /kitaplar/{isbn}
+POST /books/
+GET /books/
+GET /books/search/
+GET /books/{isbn}
+PUT /books/{isbn}
+DELETE /books/{isbn}
 Ödünç Alma
-POST /ödünç Alma/
-POST /ödünç Alma/iade-kitap
-GET /ödünç Alma/aktif
-GET /ödünç Alma/geçmiş
+POST /borrow/
+POST /borrow/return-book
+GET /borrow/active
+GET /borrow/history
+GET /borrow/overdue
 Rezervasyonlar
-POST /rezervasyonlar/
-GET /rezervasyonlar/
-DELETE /rezervasyonlar/{rezervasyon_id}
+POST /reservations/
+GET /reservations/
+DELETE /reservations/{reservation_id}
 İstatistikler
-GET /istatistikler/kitaplar
-GET /istatistikler/kullanıcılar
-GET /istatistikler/ödünç Alınanlar
+GET /stats/books
+GET /stats/users
+GET /stats/borrows
+Veri Seti İçe Aktarma
+
+Proje büyük ölçekli kitap verilerini içe aktarabilmektedir.
+
+books.csv dosyası 270.000'den fazla kitap içermektedir.
+
+Komut:
+
+python import_books.py
 Projeyi Yerel Olarak Çalıştır
 uvicorn app.main:app --reload
 
-Ardından açın:
+Sonra açın:
 
 http://127.0.0.1:8000/docs
 Docker ile Çalıştır
 docker compose up --build
 
-Ardından Erişim adresi:
+Sonra açın:
 
 http://127.0.0.1:8000/docs
 Veritabanı
 
-Proje SQLite veritabanı kullanmaktadır.
+Bu proje SQLite veritabanı kullanmaktadır.
 
 Yazar
 
 OMAR IMAD ISMAEL AL-HADEETHI
 
 
-İngilizce Açıklama 
 
+English Description
 Library Management System
 Description
 
 Library Management System is a backend REST API project built with FastAPI.
-The system allows users to register, login, manage books, borrow and return books, create reservations, and view library statistics.
+
+The system allows users to register, login, manage books, borrow and return books, create reservations, import datasets, and view library statistics.
 
 Features
-User registration
-User login with JWT authentication
-Secure password hashing
-Book management CRUD
-Search books
+User Registration
+JWT Authentication
+Secure Password Hashing
+Book CRUD Operations
+Search Books
 Pagination
-Borrow books
-Return books
-Borrow history
-Overdue books
-Reservation system
-Library statistics
-Docker support
-Swagger API documentation
+Borrow Books
+Return Books
+Borrow History
+Overdue Books
+Reservation System
+Library Statistics
+CSV Dataset Import
+Docker Support
+Swagger API Documentation
 Technologies Used
 Python
 FastAPI
@@ -148,6 +162,15 @@ Statistics
 GET /stats/books
 GET /stats/users
 GET /stats/borrows
+Dataset Import
+
+The project includes a dataset import script.
+
+books.csv contains more than 270,000 books.
+
+Run:
+
+python import_books.py
 Run Project Locally
 uvicorn app.main:app --reload
 
@@ -166,4 +189,4 @@ The project uses SQLite database.
 
 Author
 
-OMAR IMAD ISMAEL AL-HADEETHI 
+OMAR IMAD ISMAEL AL-HADEETHI
