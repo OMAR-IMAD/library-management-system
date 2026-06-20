@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, DateTime
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from app.database.db import Base
 
@@ -13,6 +13,22 @@ class Borrow(Base):
 
     book_isbn = Column(String, nullable=False)
 
-    borrow_date = Column(DateTime, default=datetime.utcnow)
+    borrow_date = Column(
+        DateTime,
+        default=datetime.utcnow
+    )
 
-    return_date = Column(DateTime, nullable=True)
+    due_date = Column(
+        DateTime,
+        default=lambda: datetime.utcnow() + timedelta(days=14)
+    )
+
+    return_date = Column(
+        DateTime,
+        nullable=True
+    )
+
+    status = Column(
+        String,
+        default="borrowed"
+    )

@@ -56,7 +56,9 @@ def borrow_book(borrow: BorrowCreate):
 
     new_borrow = Borrow(
         user_id=borrow.user_id,
-        book_isbn=borrow.book_isbn
+        book_isbn=borrow.book_isbn,
+        due_date=datetime.utcnow() + timedelta(days=14),
+        status="borrowed"
     )
 
     db.add(new_borrow)
@@ -87,6 +89,7 @@ def return_book(data: ReturnBookRequest):
         )
 
     borrow_record.return_date = datetime.utcnow()
+    borrow_record.status = "returned"
 
     db.commit()
     db.refresh(borrow_record)
@@ -96,6 +99,7 @@ def return_book(data: ReturnBookRequest):
     return {
         "message": "Book returned successfully"
     }
+
 
 @router.get("/active", response_model=list[BorrowResponse])
 def get_active_borrows():
@@ -110,6 +114,7 @@ def get_active_borrows():
 
     return active_borrows
 
+
 @router.get("/history", response_model=list[BorrowResponse])
 def get_borrow_history():
 
@@ -121,16 +126,15 @@ def get_borrow_history():
 
     return borrows
 
+
 @router.get("/overdue", response_model=list[BorrowResponse])
 def get_overdue_books():
 
     db: Session = SessionLocal()
 
-    overdue_limit = datetime.utcnow() - timedelta(days=14)
-
     overdue_books = db.query(Borrow).filter(
         Borrow.return_date == None,
-        Borrow.borrow_date < overdue_limit
+        Borrow.due_date < datetime.utcnow()
     ).all()
 
     db.close()
