@@ -97,3 +97,9 @@ def get_users():
     db.close()
 
     return users
+
+@router.post("/logout")
+def logout():
+    return {
+        "message": "Logged out successfully"
+    }
